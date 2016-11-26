@@ -1,15 +1,15 @@
 (function () {
 'use strict';
 var items  =
-angular.module('BuyListApp', [])
-.controller('BuyListController', BuyListController)
-.controller('BoughtListController', BoughtListController)
+angular.module('ShoppingListCheckOff', [])
+.controller('ToBuyController', ToBuyController)
+.controller('AlreadyBoughtController', AlreadyBoughtController)
 .service('BuyListService', BuyListService)
 .service('BoughtListService', BoughtListService);
 
-BuyListController.$inject = ['BuyListService','BoughtListService'];
+ToBuyController.$inject = ['BuyListService','BoughtListService'];
 
-function BuyListController(BuyListService, BoughtListService) {
+function ToBuyController(BuyListService, BoughtListService) {
   var list = this;
   var numItem = 0;
   list.items = BuyListService.getItems();
@@ -26,8 +26,8 @@ function BuyListController(BuyListService, BoughtListService) {
   }
 }
 
-BoughtListController.$inject = ['BoughtListService'];
-function BoughtListController(BoughtListService) {
+AlreadyBoughtController.$inject = ['BoughtListService'];
+function AlreadyBoughtController(BoughtListService) {
   var list = this;
   list.errorMessage = "";
   list.items = BoughtListService.getItems();
