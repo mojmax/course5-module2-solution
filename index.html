@@ -33,23 +33,25 @@
     <!-- To Buy List -->
     <div ng-controller='BuyListController as buyList' class="col-md-6">
      <h2>To Buy:</h2>
-     <ul>
+     <ul class="list-group">
 
-       <li ng-repeat="item in buyList.items"> Buy {{item.quantity}} {{item.name}}
-         <button ng-click="buyList.buyItem($index)" class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li ng-repeat="item in buyList.items" class="list-group-item row" >
+        <div class="col-md-9"> Buy {{item.quantity}} {{item.name}}</div>
+        <div class="col-md-3"><button ng-click="buyList.buyItem($index)" class="btn btn-default"><span class="glyphicon glyphicon-ok"> Bought</span></button></div>
+      </li>
        <!-- <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li> -->
      </ul>
-     <div class="emptyMessage">Everything is bought!</div>
+
+     <div ng-if="buyList.errorMessage" class="alert alert-danger">{{buyList.errorMessage}}</div>
     </div>
 
     <!-- Already Bought List -->
     <div ng-controller='BoughtListController as boughtList' class="col-md-6">
      <h2>Already Bought:</h2>
      <ul>
-
-       <li ng-repeat="item in boughtList.items"> Bought {{item.quantity}} {{item.name}}<span class="glyphicon glyphicon-ok"></span></li>
+       <li ng-repeat="item in boughtList.items" class="alert alert-success "> Bought {{item.quantity}} {{item.name}} <span class="glyphicon glyphicon-ok"></span></li>
      </ul>
-     <div ng-model="boughtList.errorMessage" class="emptyMessage">{{boughtList.errorMessage}}</div>
+     <div ng-if="boughtList.items.errorMessage" class="alert alert-danger">{{boughtList.items.errorMessage}}</div>
     </div>
   </div>
 </div>

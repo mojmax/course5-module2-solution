@@ -18,28 +18,20 @@ function BuyListController(BuyListService, BoughtListService) {
   list.buyItem = function (itemIndex) {
     var name = BuyListService.getItem(itemIndex).name;
     var quantity = BuyListService.getItem(itemIndex).quantity;
-    BoughtListService.addItem(name , quantity  );
+    BoughtListService.addItem(name , quantity);
     BuyListService.buyItem(itemIndex);
-    numItem = BoughtListService.numItems();
-    if ( numItem > 0 ) {
-      BoughtListService.removeError();
-    } else {
-      BoughtListService.setError();
-    };
+    if ( list.items.length == 0 ) {
+        list.errorMessage = "Everything is bought!";
+    }
   }
 }
 
 BoughtListController.$inject = ['BoughtListService'];
-
 function BoughtListController(BoughtListService) {
   var list = this;
-  var numItem=0;
   list.errorMessage = "";
   list.items = BoughtListService.getItems();
-    // list.errorMessage = error.message;
 }
-
-
 
 function BuyListService() {
   var service = this;
@@ -72,18 +64,19 @@ function BuyListService() {
     return items[itemIndex];
   };
   service.getItems = function () {
-    if (items.length > 0) {
+    // if (items.length > 0) {
       return items;
-    } else {
-      console.log("Buy Item vuota");
-      throw new Error("Vuota");
-    }
+    // } else {
+    //   console.log("Buy Item vuota");
+    //   throw new Error("Vuota");
+    // }
   };
 }
 
 function BoughtListService() {
   var service = this;
   items = [];
+  items.errorMessage = "Nothing bought yet.";
   service.getItems = function () {
       return items;
   };
@@ -96,23 +89,9 @@ function BoughtListService() {
       name: itemName,
       quantity: itemQuantity
     };
+    items.errorMessage = "";
     items.push(item)
   };
-  service.setError = function() {
-     service.errorMessage = "cazzo";
-  }
-  service.removeError = function() {
-     service.errorMessage = "";
-  }
 
-  // service.isEmpty = function () {
-  //   if ( items.length == 0 ) {
-  //     console.log("Bought list vuota");
-  //     throw new Error("vouta");
-  //   }
-  // };
-
-
-  }
-
+}
 })();
