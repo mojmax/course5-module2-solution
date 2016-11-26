@@ -4,38 +4,32 @@ var items  =
 angular.module('ShoppingListCheckOff', [])
 .controller('ToBuyController', ToBuyController)
 .controller('AlreadyBoughtController', AlreadyBoughtController)
-.service('BuyListService', BuyListService)
-.service('BoughtListService', BoughtListService);
+.service('ShoppingListCheckOffService',ShoppingListCheckOffService)
+;
 
-ToBuyController.$inject = ['BuyListService','BoughtListService'];
-
-function ToBuyController(BuyListService, BoughtListService) {
-  var list = this;
+ToBuyController.$inject = ['ShoppingListCheckOffService'];
+function ToBuyController(ShoppingListCheckOffService) {
+  var dom = this;
   var numItem = 0;
-  list.items = BuyListService.getItems();
-  list.itemName = "";
-  list.itemQuantity = "";
-  list.buyItem = function (itemIndex) {
-    var name = BuyListService.getItem(itemIndex).name;
-    var quantity = BuyListService.getItem(itemIndex).quantity;
-    BoughtListService.addItem(name , quantity);
-    BuyListService.buyItem(itemIndex);
-    if ( list.items.length == 0 ) {
-        list.errorMessage = "Everything is bought!";
-    }
+  dom.toBuyItems = ShoppingListCheckOffService.getItemsToBuy();
+   dom.buyItem = function (itemIndex) {
+     ShoppingListCheckOffService.buyItem(itemIndex);
+     if ( dom.toBuyItems.length == 0 ) {
+           dom.errorMessage = "Everything is bought!" ;
+     }
   }
 }
 
-AlreadyBoughtController.$inject = ['BoughtListService'];
-function AlreadyBoughtController(BoughtListService) {
-  var list = this;
-  list.errorMessage = "";
-  list.items = BoughtListService.getItems();
+AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
+function AlreadyBoughtController(ShoppingListCheckOffService) {
+  var dom = this;
+  dom.boughtItems = ShoppingListCheckOffService.getItemsBought();
+  dom.boughtItems.boghtErrorMessage = "Nothing bought yet ";
 }
 
-function BuyListService() {
+function ShoppingListCheckOffService() {
   var service = this;
-  var items =  [
+  var toBuyItems =  [
     {
       name: "Milk",
       quantity: "2"
@@ -53,45 +47,36 @@ function BuyListService() {
       quantity: "3"
     },
     {
-      name: "pepperMint",
+      name: "PepperMint",
       quantity: "4"
+    },
+    {
+      name: "IceCream",
+      quantity: "3"
     }
   ];
+  var boughtItems = [];
   service.buyItem = function (itemIndex) {
-      items.splice(itemIndex, 1);
+     var name = service.getItem(itemIndex).name;
+     var quantity = service.getItem(itemIndex).quantity;
+     toBuyItems.splice(itemIndex, 1);
+     var item = {
+          name: name,
+          quantity: quantity
+      };
+      boughtItems.boghtErrorMessage = "";
+      boughtItems.push(item);
   };
   service.getItem = function (itemIndex) {
-    return items[itemIndex];
+     return toBuyItems[itemIndex];
   };
-  service.getItems = function () {
-    // if (items.length > 0) {
-      return items;
-    // } else {
-    //   console.log("Buy Item vuota");
-    //   throw new Error("Vuota");
-    // }
+  service.getItemsToBuy = function () {
+      return toBuyItems;
+  };
+  service.getItemsBought = function () {
+      return boughtItems;
   };
 }
 
-function BoughtListService() {
-  var service = this;
-  items = [];
-  items.errorMessage = "Nothing bought yet.";
-  service.getItems = function () {
-      return items;
-  };
-  service.numItems = function () {
-    console.log(items.length);
-    return items.length;
-  }
-  service.addItem = function(itemName, itemQuantity) {
-    var item = {
-      name: itemName,
-      quantity: itemQuantity
-    };
-    items.errorMessage = "";
-    items.push(item)
-  };
 
-}
 })();

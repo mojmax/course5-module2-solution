@@ -31,27 +31,27 @@
   <div class="row">
 
     <!-- To Buy List -->
-    <div ng-controller='ToBuyController as buyList' class="col-md-6">
+    <div ng-controller='ToBuyController as toBuy' class="col-md-6">
      <h2>To Buy:</h2>
      <ul class="list-group">
 
-       <li ng-repeat="item in buyList.items" class="list-group-item row container-fluid" >
+       <li ng-repeat="item in toBuy.toBuyItems" class="list-group-item row container-fluid" >
         <div class="col-md-9 col-lg-8 col-sm-6 col-xs-12"> Buy {{item.quantity}} {{item.name}}</div>
-        <div class="col-md-3 col-lg-4 col-sm-6 col-xs-12"><button ng-click="buyList.buyItem($index)" class="btn btn-default"><span class="glyphicon glyphicon-ok"> Bought</span></button></div>
+        <div class="col-md-3 col-lg-4 col-sm-6 col-xs-12"><button ng-click="toBuy.buyItem($index)" class="btn btn-default"><span class="glyphicon glyphicon-ok"> Bought</span></button></div>
       </li>
-       <!-- <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li> -->
+  
      </ul>
 
-     <div ng-if="buyList.errorMessage" class="alert alert-danger">{{buyList.errorMessage}}</div>
+     <div ng-if="toBuy.errorMessage" class="alert alert-danger">{{toBuy.errorMessage}}</div>
     </div>
 
     <!-- Already Bought List -->
-    <div ng-controller='AlreadyBoughtController as boughtList' class="col-md-6">
+    <div ng-controller='AlreadyBoughtController as bought' class="col-md-6">
      <h2>Already Bought:</h2>
      <ul>
-       <li ng-repeat="item in boughtList.items" class="alert alert-success "> Bought {{item.quantity}} {{item.name}} <span class="glyphicon glyphicon-ok"></span></li>
+       <li ng-repeat="item in bought.boughtItems" class="alert alert-success "> Bought {{item.quantity}} {{item.name}} <span class="glyphicon glyphicon-ok"></span></li>
      </ul>
-     <div ng-if="boughtList.items.errorMessage" class="alert alert-danger">{{boughtList.items.errorMessage}}</div>
+     <div ng-if="bought.boughtItems.boghtErrorMessage" class="alert alert-danger">{{bought.boughtItems.boghtErrorMessage}}</div>
     </div>
   </div>
 </div>
