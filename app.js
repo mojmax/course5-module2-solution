@@ -44,7 +44,7 @@ function ShoppingListCheckOffService() {
     },
     {
       name: "Chocolate",
-      quantity: "3"
+      quantity: "32"
     },
     {
       name: "PepperMint",
